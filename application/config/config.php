@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-$config['base_url'] = 'http://localhost/WP2_Perpus_IndriEkadewi/';
+$config['base_url'] = 'http://localhost/pustaka-booking/';
 
 /*
 |--------------------------------------------------------------------------
