@@ -35,7 +35,7 @@ class User extends CI_Controller
 
     public function ubahProfil()
     {
-        $data['judul'] = 'Ubah Profil';
+        $data['judul'] = 'Ubah Profile';
         $data['user'] = $this->ModelUser->cekData(['email' => $this->session->userdata('email')])->row_array();
  
         $this->form_validation->set_rules('nama', 'Nama Lengkap', 'required|trim', [
@@ -47,7 +47,7 @@ class User extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
-            $this->load->view('user/ubah-profile', $data);
+            $this->load->view('user/ubah_profile', $data);
             $this->load->view('templates/footer');
         } else {
             $nama = $this->input->post('nama', true);
@@ -58,7 +58,7 @@ class User extends CI_Controller
 
             if ($upload_image) {
                 $config['upload_path'] = './assets/img/profile/';
-                $config['allowed_types'] = 'gif|jpg|png';
+                $config['allowed_types'] = 'gif|jpg|png|jpeg';
                 $config['max_size'] = '3000';
                 $config['max_width'] = '1024';
                 $config['max_height'] = '1000';
@@ -69,7 +69,7 @@ class User extends CI_Controller
                 if ($this->upload->do_upload('image')) {
                     $gambar_lama = $data['user']['image'];
                     if ($gambar_lama != 'default.jpg') {
-                        unlink(FCPATH . 'assets/img/profile/' . $gambar_lama);
+                        unlink(FCPATH . 'assets/img/profil/' . $gambar_lama);
                     }
                     $gambar_baru = $this->upload->data('file_name');
 
@@ -82,7 +82,7 @@ class User extends CI_Controller
             $this->db->set('nama', $nama);
             $this->db->where('email', $email);
             $this->db->update('user');
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-message" role="alert">Profil Berhasil diubah </div>')
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-message" role="alert">Profil Berhasil diubah </div>');
                 redirect('user');
             }
         }
