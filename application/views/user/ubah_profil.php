@@ -1,9 +1,8 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
- 
     <div class="row">
         <div class="col-lg-9">
-            <?= form_open_multipart('user/ubahprofil'); ?>
+            <?= form_open_multipart('user/ubah_profil'); ?>
             <div class="form-group row">
                 <label for="email" class="col-sm-2 col-form-label">Email</label>
                 <div class="col-sm-10">
@@ -21,7 +20,7 @@
             <div class="col-sm-2">Gambar</div>
             <div class="col-sm-10">
                 <div class="row">
-                    <div class="col-sm-3"><img src="<?=base_url('assets/img/profile/') . $user['image']; ?>" class="img-thumbnail" alt="">
+                    <div class="col-sm-3"><img src="<?= base_url('assets/img/profile/') . $user['image']; ?>" class="img-thumbnail" alt="">
                 </div>
                 <div class="col-sm-9">
                     <div class="custom-file">
