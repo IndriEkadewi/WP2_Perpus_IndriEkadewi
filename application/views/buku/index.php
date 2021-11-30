@@ -1,6 +1,5 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
-    <?= $this->session->flashdata('pesan'); ?>
     <div class="row">
         <div class="col-lg-12">
             <?php if(validation_errors()){?>
@@ -8,7 +7,6 @@
                 <?= validation_errors();?>
             </div>
             <?php }?>
-            <?= $this->session->flashdata('pesan'); ?>
             <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#bukuBaruModal"><i class="fas fa-file-alt"></i> Buku Baru</a>
             <table class="table table-hover">
                 <thead>
@@ -20,8 +18,8 @@
                         <th scope="col">Tahun Terbit</th>
                         <th scope="col">ISBN</th>
                         <th scope="col">Stok</th>
-                        <th scope="col">DiPinjam</th>
-                        <th scope="col">DiBooking</th>
+                        <th scope="col">Dipinjam</th>
+                        <th scope="col">Dibooking</th>
                         <th scope="col">Gambar</th>
                         <th scope="col">Pilihan</th>
                     </tr>
@@ -47,8 +45,8 @@
                             </picture>
                         </td>
                         <td>
-                            <a href="<?= base_url('buku/ubahBuku/').$b['id'];?>" class="badge badge-info"><i class="fas fa-edit"></i> Ubah</a>
-                            <a href="<?= base_url('buku/hapusbuku/').$b['id'];?>" onclick="return confirm('Kamu yakin akan menghapus <?= $judul.' '.$b['judul_buku'];?> ?');" class="badge badge-danger"><i class="fas fa-trash"></i> Hapus</a>
+                            <a href="<?= base_url('buku/ubah_buku/').$b['id'];?>" class="badge badge-info"><i class="fas fa-edit"></i> Ubah</a>
+                            <a href="<?= base_url('buku/hapus_buku/').$b['id'];?>" onclick="return confirm('Kamu yakin akan menghapus <?= $judul.' '.$b['judul_buku'];?> ?');" class="badge badge-danger"><i class="fas fa-trash"></i> Hapus</a>
                         </td>
                     </tr>
                     <?php } ?>
