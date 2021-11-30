@@ -33,7 +33,7 @@ class User extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function ubahProfil()
+    public function ubah_profil()
     {
         $data['judul'] = 'Ubah Profile';
         $data['user'] = $this->ModelUser->cekData(['email' => $this->session->userdata('email')])->row_array();
@@ -47,7 +47,7 @@ class User extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
-            $this->load->view('user/ubah_profile', $data);
+            $this->load->view('user/ubah_profil', $data);
             $this->load->view('templates/footer');
         } else {
             $nama = $this->input->post('nama', true);
@@ -69,19 +69,18 @@ class User extends CI_Controller
                 if ($this->upload->do_upload('image')) {
                     $gambar_lama = $data['user']['image'];
                     if ($gambar_lama != 'default.jpg') {
-                        unlink(FCPATH . 'assets/img/profil/' . $gambar_lama);
+                        unlink(FCPATH . 'assets/img/profile/' . $gambar_lama);
                     }
                     $gambar_baru = $this->upload->data('file_name');
-
                     $this->db->set('image', $gambar_baru);
                 } else {
                 }
             }
-            var_dump($gambar_baru);
-            die;
+
             $this->db->set('nama', $nama);
             $this->db->where('email', $email);
             $this->db->update('user');
+            
             $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-message" role="alert">Profil Berhasil diubah </div>');
                 redirect('user');
             }
