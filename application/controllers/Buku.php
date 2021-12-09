@@ -16,7 +16,8 @@ class Buku extends CI_Controller
         $data   = [
             'judul'     => "Data Buku",
             'user'      => $this->db->get_where('user', ['email' => $email])->row_array(),
-            'buku'      => $this->ModelBuku->getBuku()->result_array()
+            'buku'      => $this->ModelBuku->getBuku()->result_array(),
+            'kategori'  => $this->ModelBuku->getKategori()->result_array()
         ];
         $this->_rules();
 
@@ -27,7 +28,9 @@ class Buku extends CI_Controller
         $config['max_width']        = '1024';
         $config['max_height']       = '1000';
         $config['file_name']        = 'img' . time();
+
         $this->load->library('upload', $config);
+
         if ($this->form_validation->run() == false) {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
@@ -77,7 +80,7 @@ class Buku extends CI_Controller
         $kategori = $this->ModelBuku->joinKategoriBuku(['buku.id' => $this->uri->segment(3)])->result_array();
         foreach ($kategori as $k) {
             $data['id'] = $k['id_kategori'];
-            $data['k']  = $k['kategori'];
+            $data['k']  = $k['nama_kategori'];
         }
         $data['kategori'] = $this->ModelBuku->getKategori()->result_array();
         //konfigurasi sebelum gambar diupload
@@ -87,6 +90,7 @@ class Buku extends CI_Controller
         $config['max_width']        = '1024';
         $config['max_height']       = '1000';
         $config['file_name']        = 'img' . time();
+        
         //memuat atau memanggil library upload
         $this->_rules();
         $this->load->library('upload', $config);
@@ -127,6 +131,7 @@ class Buku extends CI_Controller
         $data = [
             'judul' => "Kategori Buku",
             'user'  => $this->db->get_where('user', ['email' => $email])->row_array(),
+            'buku' => $this->ModelBuku->getBuku()->result_array(),
             'kategori' => $this->ModelBuku->getKategori()->result_array()
         ];
 
@@ -142,7 +147,7 @@ class Buku extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $data = [
-                'kategori' => $this->input->post('kategori', TRUE)
+                'nama_kategori' => $this->input->post('nama_kategori', TRUE)
             ];
 
             $this->ModelBuku->simpanKategori($data);
@@ -150,11 +155,12 @@ class Buku extends CI_Controller
         }
     }
 
-    public function ubahKategori()
+    public function ubahkategori()
     {
         $data['judul'] = 'Ubah Data Kategori';
         $data['user'] = $this->ModelUser->cekData(['email' => $this->session->userdata('email')])->row_array();
-        $data['kategori'] = $this->ModelBuku->kategoriWhere(['id' => $this->uri->segment(3)])->result_array();
+        $data['buku'] = $this->ModelBuku->getBuku()->result_array();
+        $data['kategori'] = $this->ModelBuku->kategoriWhere(['id_kategori' => $this->uri->segment(3)])->result_array();
 
         $this->form_validation->set_rules('kategori','Nama Kategori', 'reguired|min_length[3]', [
             'reguired' => 'Nama Kategori harus diisi',
@@ -165,20 +171,33 @@ class Buku extends CI_Controller
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
-            $this->load->view('buku/ubah_kategori', $data);
+            $this->load->view('buku/ubahkategori', $data);
             $this->load->view('templates/footer');
         } else {
             $data = [
-                'kategori' => $this->input->post('kategori', true)
+                'id_kategori' => $this->input->post('id_kategori', true),
+                'nama_kategori' => $this->input->post('nama_kategori', true)
             ];
-            $this->ModelBuku->updateKategori(['id' => $this->input->post('id')], $data);
+            $this->ModelBuku->updateKategori(['id_kategori' => $this->input->post('id_kategori')], $data);
             redirect('buku/kategori');
         }
     }
 
+    public function editKategori()
+    {
+        $data['judul'] = 'Edit Kategori';
+        $data['user'] = $this->ModelUser->cekData(['email' => $this->session->userdata('email')])->row_array();
+        $kategori = $this->input->post('nama_kategori');
+        $id =  $this->input->post('id_kategori');
+        $this->db->set('nama_kategori', $kategori);
+        $this->db->where('id_kategori', $id);
+        $this->db->update('kategori');
+        redirect('buku/kategori');
+    }
+
       public function hapusKategori()
     {
-        $where = ['id' => $this->uri->segment(3)];
+        $where = ['id_kategori' => $this->uri->segment(3)];
         $this->ModelBuku->hapusKategori($where);
         redirect('buku/kategori');
     }
@@ -190,7 +209,7 @@ class Buku extends CI_Controller
             'min_length'    => 'Judul buku terlalu pendek.'
         ]);
         $this->form_validation->set_rules('id_kategori', 'Kategori', 'required', [
-            'required'      => 'Nama pengarang harus diisi.',
+            'required'      => 'Pilih Kategori buku.',
         ]);
         $this->form_validation->set_rules('pengarang', 'Nama Pengarang', 'required|min_length[3]', [
             'required'      => 'Nama pengarang harus diisi.',
