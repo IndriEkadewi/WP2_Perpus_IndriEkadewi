@@ -45,8 +45,8 @@
                             </picture>
                         </td>
                         <td>
-                            <a href="<?= base_url('buku/ubah_buku/').$b['id'];?>" class="badge badge-info"><i class="fas fa-edit"></i> Ubah</a>
-                            <a href="<?= base_url('buku/hapus_buku/').$b['id'];?>" onclick="return confirm('Kamu yakin akan menghapus <?= $judul.' '.$b['judul_buku'];?> ?');" class="badge badge-danger"><i class="fas fa-trash"></i> Hapus</a>
+                            <a href="<?= base_url('buku/ubahBuku/').$b['id'];?>" class="badge badge-info"><i class="fas fa-edit"></i> Ubah</a>
+                            <a href="<?= base_url('buku/hapusBuku/').$b['id'];?>" onclick="return confirm('Kamu yakin akan menghapus <?= $judul.' '.$b['judul_buku'];?> ?');" class="badge badge-danger"><i class="fas fa-trash"></i> Hapus</a>
                         </td>
                     </tr>
                     <?php } ?>
@@ -75,10 +75,8 @@
                     </div>
                     <div class="form-group">
                         <select name="id_kategori" class="form-control form-control-user">
-                            <option value="">Pilih Kategori</option>
-                            <?php foreach ($kategori as $k) { ?>
-                            <option value="<?= $k['id'];?>"><?= $k['kategori'];?></option>
-                            <?php } ?>
+                            <option value="">Pilih Kategori</option> <?php $k = ['Sains','Hobby','Komputer','Komunikasi','Hukum','Agama','Populer','Bahasa','Komik', 'Rahasia Keajaiban Bumi']; for ($i=0;$i<9;$i++) { ?> <option value="<?= $k[$i];?>"><?= $k[$i];?></option>
+                        <?php } ?>
                         </select>
                     </div>
                     <div class="form-group">
