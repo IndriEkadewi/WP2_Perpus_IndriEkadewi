@@ -2,16 +2,17 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover table-bordered">
-                             <thead>
-                                <tr>
+            <?php if(validation_errors()){?>
+            <div class="alert alert-danger" role="alert"> <?= validation_errors();?></div><?php }?>
+            <table class="table table-hover">
+                <thead>                    
+                    <tr>
                                     <th scope="col">No</th>
-                                    <th scope="col">Nama</th>
+                                    <th scope="col">Nama Anggota</th>
                                     <th scope="col">Email</th>
-                                    <th scope="col" nowrap>Member Sejak</th>
+                                    <th scope="col">Role ID</th>
+                                    <th scope="col">Aktif</th>
+                                    <th scope="col" >Member Sejak</th>
                                     <th scope="col">Image</th>
                                 </tr>
                             </thead>
@@ -20,11 +21,13 @@
                                 $i = 1;
                                 foreach ($anggota as $a) { ?>
                                     <tr>
-                                        <th scope="row"><?= $i++; ?></th>
-                                        <td scope="row"><?= $a['nama']; ?></td>
-                                        <td scope="row"><?= $a['email']; ?></td>
-                                        <td scope="row"><?= date('d F Y', $a['tanggal_input']); ?></td>
-                                        <td scope="row">
+                                        <td scope="row"><?= $i++; ?></th>
+                                        <td><?= $a['nama']; ?></td>
+                                        <td><?= $a['email']; ?></td>
+                                        <td><?= $a['role_id']; ?></td>
+                                        <td><?= $a['is_active']; ?></td>
+                                        <td><?= date('Y', $a['tanggal_input']); ?></td>
+                                        <td>
                                             <picture>
                                                 <source srcset="" type="image/svg+xml">
                                                 <img src="<?= base_url('assets/img/profile/') . $a['image']; ?>" class="img-fluid img-thumbnail" alt="..." style="width:60px;height:80px;">
@@ -41,4 +44,3 @@
     </div>
 </div>
 </div>
-<!-- End of Main Content -->
